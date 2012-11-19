@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">adoptaunaplaya</string>
+
+    <string name="splashTitle">#adoptaunaplaya</string>
+    <string name="splashSubtitle">Ayúdanos en esta iniciativa ciudadana a recopilar las mediciones de calidad de aguas de baño en España</string>
+    <string name="beachList">Lista de playas</string>
+    <string name="charts">Gráficos</string>
+    <string name="errorLoadingBeachs">Error cargando playas</string>
+    <string name="moreData">Más datos</string>
+
+</resources>

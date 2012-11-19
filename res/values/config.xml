@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="splash_time">3000</integer>
+
+    <!-- EndPoint API -->
+    <string name="end_point">http://192.168.1.39:8080/labs-opendata-adopta-playa-api/api/playas</string>
+
+</resources>

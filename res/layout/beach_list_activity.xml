@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:background="#FFE9B93E"
+            android:padding="5dp"
+            >
+
+        <ProgressBar
+                android:id="@+id/beach_list_pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        <Button
+                android:id="@+id/beach_list_b_get_more_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/moreData"
+                />
+
+    </RelativeLayout>
+
+    <ListView
+            android:id="@+id/beach_list_lv_data"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
+
+</LinearLayout>
