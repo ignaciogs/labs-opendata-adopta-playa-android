@@ -21,20 +21,29 @@ package com.fortysevendeg.android.adoptaunaplaya.api.response;
 import it.restrung.rest.marshalling.response.AbstractJSONResponse;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * BeachListResponse class
+ * TotalBeachResponse class
  */
-public class BeachListResponse extends AbstractJSONResponse implements Serializable {
+public class TotalBeachResponse extends AbstractJSONResponse implements Serializable {
 
-    private List<BeachResponse> results;
+    private String user;
 
-    public List<BeachResponse> getResults() {
-        return results;
+    private int totalBeach;
+
+    public String getUser() {
+        return user;
     }
 
-    public void setResults(List<BeachResponse> results) {
-        this.results = results;
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public int getTotalBeach() {
+        return totalBeach;
+    }
+
+    public void setTotalBeach(int totalBeach) {
+        this.totalBeach = totalBeach;
     }
 }

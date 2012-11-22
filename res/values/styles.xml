@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ Copyright (C) 2012 47 Degrees, LLC
   ~   http://47deg.com
@@ -18,23 +17,12 @@
   ~   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:padding="5dp">
+<resources>
 
-    <TextView
-            android:id="@+id/beach_row_tv_beach_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+    <style name="TextActionBar">
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-    <TextView
-            android:id="@+id/beach_row_tv_beach_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            />
-
-</LinearLayout>
+</resources>

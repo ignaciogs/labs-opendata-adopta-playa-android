@@ -23,13 +23,36 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
 
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:background="@color/actionBar"
+            android:padding="5dp"
+            android:orientation="horizontal"
+            >
 
-    <com.androidplot.xy.XYPlot
-            android:id="@+id/charts_xyplot"
+        <ProgressBar
+                android:id="@+id/map_browse_pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/mapView"
+                  style="@style/TextActionBar"
+                  android:layout_marginLeft="5dp"
+                />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/map_browse_ll_map_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="10dp"
-            title="sssssss"
-            />
+            >
+
+    </LinearLayout>
 
 </LinearLayout>

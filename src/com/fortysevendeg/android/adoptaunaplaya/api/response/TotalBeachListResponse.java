@@ -24,17 +24,17 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * BeachListResponse class
+ * TotalBeachListResponse class
  */
-public class BeachListResponse extends AbstractJSONResponse implements Serializable {
+public class TotalBeachListResponse extends AbstractJSONResponse implements Serializable {
 
-    private List<BeachResponse> results;
+    private List<TotalBeachResponse> results;
 
-    public List<BeachResponse> getResults() {
+    public List<TotalBeachResponse> getResults() {
         return results;
     }
 
-    public void setResults(List<BeachResponse> results) {
+    public void setResults(List<TotalBeachResponse> results) {
         this.results = results;
     }
 }
