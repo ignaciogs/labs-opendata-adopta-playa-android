@@ -22,7 +22,7 @@
     <integer name="splash_time">3000</integer>
 
     <!-- EndPoint API -->
-    <string name="end_point">http://192.168.1.39:8080/labs-opendata-adopta-playa-api/api/playas</string>
+    <string name="end_point">http://labs-opendata-adopta-playa-api.herokuapp.com/api/playas</string>
 
     <!-- Google Maps -->
     <string name="google_maps_api">0B8Rsd6rLL0n3BmfwM95oh8joV49fiR3OOmqY0Q</string> <!-- Debug key -->
