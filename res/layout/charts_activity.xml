@@ -18,10 +18,9 @@
   ~   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
 
     <com.androidplot.xy.XYPlot
@@ -29,7 +28,14 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_margin="10dp"
-            title="sssssss"
+            title="-------------------------------------------------"
             />
 
-</LinearLayout>
+    <ProgressBar
+            android:id="@+id/charts_pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
+</RelativeLayout>

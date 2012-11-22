@@ -56,17 +56,20 @@ public class MainActivity extends BaseActivity {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle(getString(R.string.kindCharts));
-            dialog.setItems(new CharSequence[]{getString(R.string.topTenUsers)},
+            dialog.setItems(new CharSequence[]{getString(R.string.topTenUsers), getString(R.string.beachesWithEnterococos)},
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int itemIndex) {
+                                    Intent intent = new Intent(MainActivity.this, ChartsActivity.class);
                                     switch (itemIndex) {
                                         case 0: //Top ten users
-                                            Intent intent = new Intent(MainActivity.this, ChartsActivity.class);
                                             intent.putExtra(ChartsActivity.KEY_KIND_CHARTS, ChartsActivity.KindCharts.TOP_TEN_USERS);
-                                            startActivity(intent);
+                                            break;
+                                        case 1: //Enterococos
+                                            intent.putExtra(ChartsActivity.KEY_KIND_CHARTS, ChartsActivity.KindCharts.TOP_ENTEROCOCOS);
                                             break;
                                     }
+                                    startActivity(intent);
                                 }
                             }
             );

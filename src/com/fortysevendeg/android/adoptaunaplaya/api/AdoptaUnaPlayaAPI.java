@@ -72,4 +72,10 @@ public interface AdoptaUnaPlayaAPI {
      */
     void getBeachesByLocation(int radiusKm, double latitude, double longitude, APIDelegate<BeachListResponse> delegate);
 
+    /**
+     * Return the bechs with more enterococos
+     * @param delegate listener
+     */
+    void getBeachesWithMoreEnterococos(APIDelegate<BeachListResponse> delegate);
+
 }

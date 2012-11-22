@@ -100,5 +100,16 @@ public class AdoptaUnaPlayaAPIImpl implements AdoptaUnaPlayaAPI {
         client.postAsync(delegate, getEndpoint("/query"), latLngRequest);
     }
 
+    @Override
+    public void getBeachesWithMoreEnterococos(APIDelegate<BeachListResponse> delegate) {
+        QueryRequest queryRequest = new QueryRequest();
+        queryRequest.setOffset(0);
+        queryRequest.setLimit(10);
+        queryRequest.setQuery("select p from Playa p order by p.enterococo desc");
+        List<String> prop = new ArrayList<String>();
+        prop.add("hack");
+        queryRequest.setProperties(prop);
+        client.postAsync(delegate, getEndpoint("/query"), queryRequest);
+    }
 
 }

@@ -18,19 +18,27 @@
 
 package com.fortysevendeg.android.adoptaunaplaya.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.androidplot.series.XYSeries;
-import com.androidplot.xy.*;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
 import com.fortysevendeg.android.adoptaunaplaya.R;
 import com.fortysevendeg.android.adoptaunaplaya.api.APIService;
+import com.fortysevendeg.android.adoptaunaplaya.api.response.BeachListResponse;
+import com.fortysevendeg.android.adoptaunaplaya.api.response.BeachResponse;
 import com.fortysevendeg.android.adoptaunaplaya.api.response.TotalBeachListResponse;
 import com.fortysevendeg.android.adoptaunaplaya.api.response.TotalBeachResponse;
 import it.restrung.rest.client.ContextAwareAPIDelegate;
 
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static it.restrung.rest.cache.RequestCache.LoadPolicy.NEVER;
@@ -39,11 +47,13 @@ import static it.restrung.rest.cache.RequestCache.StoragePolicy.DISABLED;
 public class ChartsActivity extends BaseActivity {
 
     public enum KindCharts {
-        TOP_TEN_USERS
+        TOP_TEN_USERS,
+        TOP_ENTEROCOCOS
     }
 
     public static final String KEY_KIND_CHARTS = "KEY_KIND_CHARTS";
     private KindCharts kindCharts;
+    private ProgressBar pbLoading;
 
     /**
      * Charts component
@@ -60,67 +70,85 @@ public class ChartsActivity extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey(KEY_KIND_CHARTS)) {
-            kindCharts = (KindCharts)extras.getSerializable(KEY_KIND_CHARTS);
+            kindCharts = (KindCharts) extras.getSerializable(KEY_KIND_CHARTS);
             xyPlot = (XYPlot) findViewById(R.id.charts_xyplot);
-            xyPlot.setDomainStep(XYStepMode.SUBDIVIDE, 3);
+            pbLoading = (ProgressBar) findViewById(R.id.charts_pb_loading);
+            pbLoading.setVisibility(View.VISIBLE);
+            final MyIndexFormat myIndexFormat = new MyIndexFormat();
             switch (kindCharts) {
                 case TOP_TEN_USERS:
+                    xyPlot.setTitle(getString(R.string.topTenUsers));
                     APIService.get().getTopTenUsers(new ContextAwareAPIDelegate<TotalBeachListResponse>(ChartsActivity.this, TotalBeachListResponse.class, NEVER, DISABLED) {
                         @Override
                         public void onResults(TotalBeachListResponse totalBeachListResponse) {
-                            //TODO Hack for test
-                            //Number[] series1Numbers = {1, 8, 5, 2, 7, 4};
-
                             List<Number> numbers = new ArrayList<Number>();
+                            List<String> names = new ArrayList<String>();
                             for (TotalBeachResponse totalBeachResponse : totalBeachListResponse.getResults()) {
-                                numbers.add(totalBeachResponse.getTotalBeach());
+                                if (!TextUtils.isEmpty(totalBeachResponse.getUser())) {
+                                    numbers.add(totalBeachResponse.getTotalBeach());
+                                    names.add(totalBeachResponse.getUser());
+                                }
                             }
 
-                            //XYSeries series1 = new SimpleXYSeries(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
-                            XYSeries series1 = new SimpleXYSeries(numbers, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, getString(R.string.topTenUsers));
+                            String[] stringsNames = names.toArray(new String[0]);
+                            myIndexFormat.labels = stringsNames;
 
+                            XYSeries series1 = new SimpleXYSeries(numbers, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, getString(R.string.topTenUsers));
                             LineAndPointFormatter series1Format = new LineAndPointFormatter(
                                     0xFFFF0000,
                                     0xFFFF0000,
                                     null);
-
-                            //BarFormatter seriesFormat = new BarFormatter(0xFFFF0000, 0xFFFF0000);
-
                             xyPlot.addSeries(series1, series1Format);
-
                             xyPlot.setTicksPerRangeLabel(3);
                             xyPlot.disableAllMarkup();
-
-
-                            Toast.makeText(ChartsActivity.this, "ok", Toast.LENGTH_LONG).show();
-
+                            xyPlot.getGraphWidget().setDomainValueFormat(myIndexFormat);
                             xyPlot.redraw();
-
-
+                            pbLoading.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            pbLoading.setVisibility(View.GONE);
                             Toast.makeText(ChartsActivity.this, String.format("Error: %s", e.getMessage()), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    break;
+                case TOP_ENTEROCOCOS:
+                    xyPlot.setTitle(getString(R.string.beachesWithEnterococos));
+                    APIService.get().getBeachesWithMoreEnterococos(new ContextAwareAPIDelegate<BeachListResponse>(ChartsActivity.this, BeachListResponse.class, NEVER, DISABLED) {
+                        @Override
+                        public void onResults(BeachListResponse beachListResponse) {
+                            List<Number> numbers = new ArrayList<Number>();
+                            List<String> names = new ArrayList<String>();
+                            for (BeachResponse beachResponse : beachListResponse.getResults()) {
+                                numbers.add(Integer.valueOf(beachResponse.getEnterococo()));
+                                if (beachResponse.getNombre().length() > 12) {
+                                    names.add(String.format("%s...", beachResponse.getNombre().substring(0, 9)));
+                                } else {
+                                    names.add(beachResponse.getNombre());
+                                }
+                            }
 
-                            //TODO Hack for test
-                            Number[] series1Numbers = {1, 8, 5, 2, 7, 4};
-                            Number[] series2Numbers = {4, 6, 3, 8, 2, 10};
+                            String[] stringsNames = names.toArray(new String[0]);
+                            myIndexFormat.labels = stringsNames;
 
-                            XYSeries series1 = new SimpleXYSeries(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
-                            XYSeries series2 = new SimpleXYSeries(Arrays.asList(series2Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series2");
-
+                            XYSeries series1 = new SimpleXYSeries(numbers, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, getString(R.string.topTenUsers));
                             LineAndPointFormatter series1Format = new LineAndPointFormatter(
                                     0xFFFF0000,
                                     0xFFFF0000,
                                     null);
                             xyPlot.addSeries(series1, series1Format);
-
-                            xyPlot.addSeries(series2, new LineAndPointFormatter(Color.rgb(0, 0, 200), Color.rgb(0, 0, 100), null));
-
                             xyPlot.setTicksPerRangeLabel(3);
                             xyPlot.disableAllMarkup();
+                            xyPlot.getGraphWidget().setDomainValueFormat(myIndexFormat);
                             xyPlot.redraw();
+                            pbLoading.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            pbLoading.setVisibility(View.GONE);
+                            Toast.makeText(ChartsActivity.this, String.format("Error: %s", e.getMessage()), Toast.LENGTH_LONG).show();
                         }
                     });
                     break;
@@ -131,4 +159,30 @@ public class ChartsActivity extends BaseActivity {
         }
 
     }
+
+    public class MyIndexFormat extends Format {
+
+        public String[] labels = null;
+
+        @Override
+        public StringBuffer format(Object obj,
+                                   StringBuffer toAppendTo,
+                                   FieldPosition pos) {
+
+            float fl = ((Number) obj).floatValue();
+            int index = Math.round(fl);
+            if (index >= 0 && index < labels.length) {
+                return new StringBuffer(labels[index]);
+            } else {
+                return new StringBuffer("");
+            }
+        }
+
+        @Override
+        public String parseObject(String s, ParsePosition parsePosition) {
+            return null;
+        }
+    }
+
+    ;
 }
